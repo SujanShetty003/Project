@@ -1,0 +1,42 @@
+#include <stdio.h> \\Headerfile
+int interpolationSearch(int arr[], int lo, int hi, int x) // Function to find position of key element
+{
+int pos;
+if (lo <= hi && x >= arr[lo] && x <= arr[hi]) {
+
+ // Probing the position with keeping
+ // uniform distribution in mind
+pos = lo + ((x – arr[lo]) / (arr[hi] - arr[lo])) * (hi-lo); // Formula
+if (arr[pos] == x)
+return pos;
+ // If x is larger, x is in right sub array
+if (arr[pos] < x)
+return interpolationSearch(arr, pos + 1, hi, x);
+ // If x is smaller, x is in left sub array
+if (arr[pos] > x)
+return interpolationSearch(arr, lo, pos - 1, x);
+}
+return -1;
+}
+int main() // Main Function
+{
+int arr[10];
+
+int n,i;
+int x; // Element to be searched
+printf("enter the size of array\n"); //read the array size
+scanf("%d",&n);
+printf("enter the array\n");
+for(i=0;i<n;i++)
+{
+scanf("%d",&arr[i]); //read array element
+}
+printf("enter the search element\n");
+scanf("%d",&x);
+int index = interpolationSearch(arr, 0, n - 1, x); //assingning the returned value
+if (index != -1) // If element was found
+printf("Element found at index : %d ", index);
+else
+printf("Element not found."); // If element was Not found
+return 0;
+}
