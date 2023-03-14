@@ -1,0 +1,72 @@
+Employee.java :
+class Employee {
+String name;
+String id;
+public void earnings() {
+System.out.println(name);
+System.out.println(id);
+}
+}
+
+SalariedEmployee.java :
+
+import lab3.Employee;
+class SalariedEmployee extends Employee {
+String name,id;
+double msalary,bs,da,hra;
+public SalariedEmployee(String name, String id, double bs, double da, double hra) {
+super(name, id);
+this.bs = bs;
+this.da = da;
+this.hra = hra;
+}
+public void earnings(double bs,double da,double hra) {
+if(bs<=500000)
+msalary=bs+((da/100)*bs)+((hra/100)*bs);
+else if(bs<700000 && bs>500000)
+msalary=bs+((da/100)*bs)+((hra/100)*bs)-((15/100)*bs);
+else if (bs<1000000 && bs>700000)
+msalary=bs+((da/100)*bs)+((hra/100)*bs)-((20/100)*bs);
+else if(bs>=100000)
+msalary=bs+((da/100)*bs)+((hra/100)*bs)-((25/100)*bs);
+}
+@Override
+public String toString() {
+return "SalariedEmployee [name=" + name + ", id=" + id + ", msalary=" + msalary + ", bs=" + bs + ", da=" + da
++ ", hra=" + hra + "]";
+} 
+}
+ 
+EmployeeTest.java :
+import java.util.Scanner;
+class EmployeeTest {
+public static void main(String[] args) {
+Scanner scanner = new Scanner(System.in);
+double bs,da,hra;
+System.out.print("Enter number of employees: \n");
+int n = scanner.nextInt();
+SalariedEmployee salariedemployee[]=new SalariedEmployee[n];
+for (int i=0; i<n; i++) {
+System.out.print("Enter details for Employee \n ");
+System.out.print("\nEnter employee name"+(i+1)+":");
+String name = scanner.next();
+System.out.print("Enter employee ID"+(i+1)+":");
+String id = scanner.next();
+System.out.print("Enter employee basic salary"+(i+1)+":");
+bs = scanner.nextDouble();
+System.out.print("Enter employee DA"+(i+1)+":");
+da= scanner.nextDouble();
+System.out.print("Enter employee HRA"+(i+1)+":");
+hra= scanner.nextDouble();
+salariedemployee[i] = new SalariedEmployee(name,id,bs,da,hra);
+salariedemployee[i].name=name;
+salariedemployee[i].id=id;
+salariedemployee[i].earnings(bs,da,hra);
+}
+System.out.println("\nEmployee Records:");
+for (int i=0;i<n;i++) 
+{
+System.out.println(salariedemployee[i]);
+} 
+} 
+}
