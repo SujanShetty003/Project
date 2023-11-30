@@ -1,0 +1,233 @@
+index.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Image search Engine</h1>
+    <form action="">
+        <input type="text" id ="search-input" placeholder="Search for pic">
+        <button id="search-button">Go Find It</button>
+    </form>
+    <div class="Search_results">
+        <div class="search_result">
+            <img src="https://images.unsplash.com/photo-1696166185487-85cefd78587e?auto=format&fit=crop&q=60&w=500&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHx8" alt="mountain view">
+            <a href="https://unsplash.com/photos/a-very-tall-mountain-with-a-very-steep-side-ayAuTMVdjJ0" target="_blank">mountain view</a>
+        </div>
+        <div class="search_result">
+            <img src="https://images.unsplash.com/photo-1696166185487-85cefd78587e?auto=format&fit=crop&q=60&w=500&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHx8" alt="mountain view">
+            <a href="https://unsplash.com/photos/a-very-tall-mountain-with-a-very-steep-side-ayAuTMVdjJ0" target="_blank">mountain view</a>
+        </div>
+        <div class="search_result">
+            <img src="https://images.unsplash.com/photo-1696166185487-85cefd78587e?auto=format&fit=crop&q=60&w=500&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHx8" alt="mountain view">
+            <a href="https://unsplash.com/photos/a-very-tall-mountain-with-a-very-steep-side-ayAuTMVdjJ0" target="_blank">mountain view</a>
+           
+        </div>
+    </div>
+    <button id="show-more">Show More</button>
+    
+    <script  type="module" src="image_search.js"></script>
+    
+</body>
+</html>
+
+
+
+Image_Search.js
+
+const accesskey = "J-7YIcA1WP9YDgHMqxUlTJ4GCWnKm1hzasWNiTSCW6A"; /*API Key*/
+
+
+const formEl = document.querySelector("form") /*to select the complete form section */
+const inputEl = documentocument.getElementById("search-input"); /*To get the input from text bar in index.html*/
+const searchresults = document.querySelector(".search_results"); /* TO store the images..Boxes*/
+const showmore = document.getElementById("show-more"); /*To get the show more button value*/
+
+
+let inputData = ""; /* the variable To store the key word from text bar (user enter the input data)  */
+let page = 1; /*By Default page_number will be 1 */
+
+async function searchimages() {
+    inputData = inputEl.value; /*To store the key word from text bar, we use async to response and fetch */
+
+    const url = "https://api.unsplash.com/search/photo?page=$(page)&query=$(inputData)&client_id=$(accesskey)";/***we create dynamic URL based on input data */
+
+    const response = await fetch(url); /* TO fetch the data from url varialble  */
+    const data = await response.json(); /*we must convert into json format , it store it in json format */
+
+    const results = data.results; /**it will show image result */
+
+    if (page === 1) {
+        searchResults.innerHTML = "";
+
+        /**will be empty */
+    }
+
+    results.map((result) => {                                                        /** to use the template for newly searched image like new boxes */
+        const imagewrapper = document.createElement("div");          /**to create div element */
+        imagewrapper.classList.add("search_result");                 /**adding class name */
+        const image = document.createElement("img");                /**to create img element */
+        image.src = result.urls.small;
+        image.alt = result.alt_description;
+        const imagelink = document.createElement("a");
+        imagelink.href = result.links.html;
+        imagelink.target = "_blank";
+        imagelink.textContent = result.alt_description;                                 /**to import src data */
+        imagewrapper.appendChild(image);
+        imagewrapper.appendChild(imagelink);
+        searchresults.appendChild(imagewrapper);
+    });
+
+    page++
+    if (page > 1) {
+        showmore.style.display = "block";
+
+    }
+
+}
+if(typeof document!=="underdefined"){
+    document.getElementById("myelement")
+}
+
+formEl.addEventListener("submit", (event) => {
+
+    event.preventDefault();
+    page = 1;
+    searchimages();
+});
+
+showmore.addEventListener("click", () => {
+
+
+    searchimages();
+});
+
+
+
+Style.css
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;1,500&display=swap');
+
+.{
+    margin:0;
+    padding: 0;
+    box-shadow: border-box;
+    font-family: 'Poppins', sans-serif;
+
+}
+body{
+    line-height: 1.6;
+}
+h1{
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    margin: 40px 0 60px 0;
+}
+
+form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 60px ;
+}
+
+#search-input{
+    width: 60%;
+    max-width: 400px;
+    padding: 10px 20px;
+    border: none;
+    box-shadow: 0 0 6px rgb(0, 0,0.2);
+    border-radius: 5px;
+    font-size:10px;
+    color: #333;
+}
+
+#search-button{
+    padding: 10px 20px;
+    background-color: #138065;
+    color: white;
+    border: none;
+    font-size: 20px;
+    box-shadow: 0 0 6px rgb(0, 0,0);
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+.Search_results{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.search_result{
+    margin-bottom: 60px;
+    width: 30%;
+    height: 100%;
+    border-radius: 5px;
+    box-shadow: 0 0 6px black;
+    overflow: hidden;
+}
+
+.search_result img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+}
+.search_result:hover img{
+
+    opacity: 0.9;
+}
+.search_result a{
+    font-size: 20px;
+    text-decoration: none;
+    color: black;
+    display: block;
+    padding: 10px;
+    text-transform: capitalize;
+}
+
+#show-more{
+    background-color: green;
+    font-size: 18px;
+    border: none;
+    color: aliceblue;
+    padding: 10px 20px;
+    text-align: center;
+    display: block;
+    margin: 30px auto;
+    border-radius: 5px;
+    cursor: pointer;
+    display:none; /* when we use second time display it will show ,(show-more button after searching pic)*/
+
+
+    
+}
+@media screen and (max-width:768px)
+{
+    .Search_results{
+        padding: 20px;
+
+    }
+    
+    .search_result{
+        width: 45%;
+        
+
+    }
+}
+
+@media screen and (max-width:480px) {
+    .search_result {
+        width:100%;
+    }
+    
+}
