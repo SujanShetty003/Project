@@ -1,0 +1,23 @@
+#include <stdio.h>
+
+void main()
+{
+int T_speed=132, T_length=110, platform_len=165, Total_Dis;
+float Time, Time_MS;
+
+printf("Enter the Tain speed\n");
+Sacnf("%d",&T_speed);
+printf("Enter the Tain Length\n");
+Sacnf("%d",&T_length);
+printf("Enter the Platform Length\n");
+Sacnf("%d",&platform_len);
+
+Time_MS=(T_speed*5)/18;
+
+Total_Dis=T_length+platform_len;
+
+Time=Total_Dis/(Time_MS);
+
+printf("Time Taken by Train to Cross the Platform=%f seconds", Time);
+
+}
